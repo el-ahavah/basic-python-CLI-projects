@@ -103,21 +103,21 @@ def load_contacts(filename=CONTACTS_FILE):
     return contacts
 
 
-def save_contacts(contacts, filename=CONTACTS_FILE):  # Receive the contacts and use the default save location unless another is provided.
-    """Write JSON to a temporary file, then replace the saved contact book."""  # Describe what this function does.
-    filename = Path(filename) # Convert the filename into a Path object so we can use file-related methods.
-    temporary_file = filename.with_name(filename.name + ".tmp") # Choose a temporary file in the same folder, such as contacts.json.tmp.
+def save_contacts(contacts, filename=CONTACTS_FILE):
+    """Write JSON to a temporary file, then replace the saved contact book."""
+    filename = Path(filename)
+    temporary_file = filename.with_name(filename.name + ".tmp")
 
-    try: # Attempt the saving steps below; the finally block will run afterward even if an error occurs.
-        with open(temporary_file, "w", encoding="utf-8") as file: # Open the temporary file for writing; close it automatically when this block ends.
-            json.dump(contacts, file, indent=4, ensure_ascii=False) # Save the contacts as JSON, using four-space indentation and keeping characters such as é readable.
-            file.write("\n") # Add a newline after the saved JSON.
+    try:
+        with open(temporary_file, "w", encoding="utf-8") as file:
+            json.dump(contacts, file, indent=4, ensure_ascii=False)
+            file.write("\n")
 
-        temporary_file.replace(filename) # Replace the main contacts file with the completed temporary file.
+        temporary_file.replace(filename)
 
-    finally: # Run the following cleanup whether saving succeeds or fails.
-        if temporary_file.exists(): # Check whether the temporary file still exists.
-            temporary_file.unlink() # Delete the remaining temporary file.
+    finally:
+        if temporary_file.exists():
+            temporary_file.unlink()
 
 
 def main():
